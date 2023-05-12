@@ -15,7 +15,6 @@ services:
     networks:
       - backend_network
 
-
   # Add mongo-express to the docker-compose.yml file
   # This will allow you to view the database in a web browser
   express:
@@ -40,7 +39,7 @@ services:
     depends_on:
       - db
     volumes:
-      - ./server:/app
+      - ./server:/usr/src/app
     networks:
       - backend_network
 
@@ -52,7 +51,7 @@ services:
     depends_on:
       - backend
     volumes:
-      - ./client:/app
+      - ./client:/usr/src/app
     networks:
       - frontend_network
       - backend_network

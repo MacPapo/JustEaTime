@@ -1,11 +1,12 @@
-version: "3.7"
+version: "3.9"
 
 services:
   db:
-    image: mongo:latest
+    container_name: JustEaTime-mongodb
+    image: mongo:6.0.5
     restart: always
     volumes:
-      - ./db_data:/data/db
+      - ./db/db_data:/data/db
     ports:
       - 27017:27017
     environment:
@@ -15,10 +16,8 @@ services:
     networks:
       - backend_network
 
-
-  # Add mongo-express to the docker-compose.yml file
-  # This will allow you to view the database in a web browser
   express:
+    container_name: JustEaTime-mongo-express
     image: mongo-express:latest
     restart: always
     depends_on:
@@ -33,6 +32,7 @@ services:
       - backend_network
 
   backend:
+    container_name: JustEaTime-backend
     build:
       context: server
       dockerfile: Dockerfile
@@ -45,6 +45,7 @@ services:
       - backend_network
 
   frontend:
+    container_name: JustEaTime-frontend
     build:
       context: client
       dockerfile: Dockerfile
@@ -58,7 +59,8 @@ services:
       - backend_network
 
   nginx:
-    image: nginx:latest
+    container_name: JustEaTime-nginx
+    image: nginx:1.24.0-perl
     restart: always
     ports:
       - 8080:8080

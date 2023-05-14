@@ -37,10 +37,11 @@ services:
       context: server
       dockerfile: Dockerfile
     restart: always
+    volumes:
+      - ./server:/node/app
+      - /node/node_modules
     depends_on:
       - db
-    volumes:
-      - ./server:/app
     networks:
       - backend_network
 
@@ -50,10 +51,11 @@ services:
       context: client
       dockerfile: Dockerfile
     restart: always
+    volumes:
+      - ./client:/node/app
+      - /node/node_modules
     depends_on:
       - backend
-    volumes:
-      - ./client:/app
     networks:
       - frontend_network
       - backend_network
@@ -70,6 +72,7 @@ services:
       - frontend
     networks:
       - frontend_network
+      - backend_network  # Remove me in prod
 
 networks:
   backend_network:

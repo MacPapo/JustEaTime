@@ -37,6 +37,20 @@ services:
     networks:
       - backend_network
 
+  redis:
+    container_name: JustEaTime-redis
+    image: redis:7.2-rc2-alpine3.18
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    networks:
+      - backend_network
+
   frontend:
     container_name: JustEaTime-frontend
     build:
@@ -64,7 +78,7 @@ services:
       - frontend
     networks:
       - frontend_network
-      - backend_network  # Remove me in prod
+      - backend_network # Remove me in prod
 
 networks:
   backend_network:

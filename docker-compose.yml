@@ -64,7 +64,6 @@ services:
       - backend
     networks:
       - frontend_network
-      - backend_network
 
   nginx:
     container_name: JustEaTime-nginx
@@ -78,7 +77,7 @@ services:
       - frontend
     networks:
       - frontend_network
-      - backend_network # Remove me in prod
+      - backend_network
 
 networks:
   backend_network:

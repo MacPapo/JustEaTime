@@ -40,8 +40,10 @@ services:
       dockerfile: Dockerfile
     restart: always
     volumes:
-      - ./server:/node/app
-      - /node/node_modules
+      - ./server:/opt/node_app/app
+      - ./server/package.json:/opt/node_app/package.json
+      - ./server/package-lock.json:/opt/node_app/package-lock.json
+      - notused:/opt/node_app/app/node_modules
     links:
       - db
       - redis
@@ -83,8 +85,10 @@ services:
       dockerfile: Dockerfile
     restart: always
     volumes:
-      - ./client:/node/app
-      - /node/node_modules
+      - ./client:/opt/node_app/app
+      - ./client/package.json:/opt/node_app/package.json
+      - ./client/package-lock.json:/opt/node_app/package-lock.json
+      - notused:/opt/node_app/app/node_modules
     depends_on:
       - backend
     networks:
@@ -109,12 +113,9 @@ networks:
   backend_network:
   frontend_network:
 
-# Our top-level volumes key defines the volumes dbdata.
-# When Docker creates volumes, the contents of the volume are stored in a part of the host filesystem, /var/lib/docker/volumes/, that’s managed by Docker.
-# The contents of each volume are stored in a directory under /var/lib/docker/volumes/ and get mounted to any container that uses the volume.
-# In this way, the data that our users will create will persist in the dbdata volume even if we remove and recreate the db container.
 volumes:
   redisinsight:
+  notused:
   dbdata:
   cache:
     driver: local
